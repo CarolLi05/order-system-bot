@@ -11,7 +11,7 @@ export default function Control() {
       </button>
 
       <button
-        className={`${defaultButtonClasses} text-white bg-orange-500 hover:bg-orange-600`}
+        className={`${defaultButtonClasses} text-gray-900 bg-yellow-400 hover:bg-yellow-500`}
       >
         + VIP Order
       </button>
