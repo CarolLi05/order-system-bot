@@ -12,14 +12,14 @@ function App() {
         <div className="col-span-3">
           <BotStatus />
         </div>
-        <div className="">
-          <OrderArea />
+        <div>
+          <OrderArea status="PENDING" />
         </div>
-        <div className="">
-          <OrderArea />
+        <div>
+          <OrderArea status="PROCESSING" />
         </div>
-        <div className="">
-          <OrderArea />
+        <div>
+          <OrderArea status="COMPLETED" />
         </div>
       </div>
     </div>
