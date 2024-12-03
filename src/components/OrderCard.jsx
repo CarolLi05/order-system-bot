@@ -1,15 +1,17 @@
-export default function OrderCard() {
+export default function OrderCard({ orderData }) {
   return (
-    <div className="rounded-md border p-4">
+    <div
+      className={`rounded-md border p-4 mb-2 ${orderData.type === "VIP" ? "border-yellow-400 bg-yellow-50" : "border-gray-200"} `}
+    >
       <p className="text-lg font-bold mb-2">
-        Order Card #1
-        <span className="px-2 py-1 rounded-full text-sm text-white bg-orange-500 ml-2">
-          Normal
-        </span>
+        Order # {orderData.id}
+        {orderData.type === "VIP" && (
+          <span className="px-2 py-1 rounded-full text-sm text-white bg-yellow-400 ml-2">
+            VIP
+          </span>
+        )}
       </p>
-      <span className="inline-flex algin-items-center justify-content-center px-2 py-1 rounded-full text-sm text-white bg-orange-500">
-        status
-      </span>
+      <span>{orderData.createdAt}</span>
     </div>
   );
 }
