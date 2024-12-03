@@ -2,15 +2,25 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   bots: [],
-  botId: 1,
+  nextBotId: 1,
 };
 
 const botSlice = createSlice({
   name: "bots",
   initialState,
   reducers: {
-    addBot: (state) => {},
-    removeBot: (state) => {},
+    addBot: (state) => {
+      state.bots.push({
+        id: `${state.nextBotId++}`,
+        status: "IDLE",
+        currentOrder: null,
+      });
+    },
+    removeBot: (state) => {
+      if (state.bots.length > 0) {
+        state.bots.pop();
+      }
+    },
     updateBotStatus: (state, action) => {},
   },
 });
