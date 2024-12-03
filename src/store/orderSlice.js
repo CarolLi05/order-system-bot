@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   orders: [],
-  orderId: 1,
+  nextOrderId: 1,
 };
 
 const orderSlice = createSlice({
@@ -11,7 +11,7 @@ const orderSlice = createSlice({
   reducers: {
     addOrder: (state, action) => {
       const newOrder = {
-        id: state.orderId++,
+        id: state.nextOrderId,
         type: action.payload,
         status: "PENDING",
         createdAt: Date.now(),
@@ -22,11 +22,11 @@ const orderSlice = createSlice({
           (order) => order.status === "PENDING" && order.type === "VIP",
         );
         state.orders.splice(lastVipIndex + 1, 0, newOrder);
+      } else {
+        state.orders.push(newOrder);
       }
 
-      if (action.payload === "Normal") {
-        state.orders.push(newOrder)
-      }
+      state.nextOrderId += 1;
     },
     updateOrderStatus: (state, action) => {},
   },

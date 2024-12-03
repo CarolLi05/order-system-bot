@@ -11,10 +11,12 @@ const botSlice = createSlice({
   reducers: {
     addBot: (state) => {
       state.bots.push({
-        id: `${state.nextBotId++}`,
+        id: state.nextBotId,
         status: "IDLE",
         currentOrder: null,
       });
+
+      state.nextBotId += 1;
     },
     removeBot: (state) => {
       if (state.bots.length > 0) {
