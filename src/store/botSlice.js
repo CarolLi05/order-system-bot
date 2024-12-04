@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { IDLE, PROCESSING } from "../util/status";
 
 const initialState = {
   bots: [],
@@ -12,8 +13,7 @@ const botSlice = createSlice({
     addBot: (state) => {
       state.bots.push({
         id: state.nextBotId,
-        status: "IDLE",
-        currentOrder: null,
+        status: IDLE,
       });
 
       state.nextBotId += 1;
@@ -23,9 +23,16 @@ const botSlice = createSlice({
         state.bots.pop();
       }
     },
-    updateBotStatus: (state, action) => {},
+    assignOrderToBot: (state, action) => {
+      const { orderId, botId } = action.payload;
+      const bot = state.bots.find((bot) => bot.id === botId);
+      if (bot) {
+        bot.status = PROCESSING;
+        bot.currentOrder = orderId;
+      }
+    },
   },
 });
 
 export default botSlice.reducer;
-export const { addBot, removeBot, updateBotStatus } = botSlice.actions;
+export const { addBot, removeBot, assignOrderToBot } = botSlice.actions;
