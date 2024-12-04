@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { PENDING } from "../util/status";
 
 const initialState = {
   orders: [],
@@ -13,13 +14,13 @@ const orderSlice = createSlice({
       const newOrder = {
         id: state.nextOrderId,
         type: action.payload,
-        status: "PENDING",
+        status: PENDING,
         createdAt: Date.now(),
       };
 
       if (action.payload === "VIP") {
         const lastVipIndex = state.orders.findLastIndex(
-          (order) => order.status === "PENDING" && order.type === "VIP",
+          (order) => order.status === PENDING && order.type === "VIP",
         );
         state.orders.splice(lastVipIndex + 1, 0, newOrder);
       } else {
@@ -28,7 +29,14 @@ const orderSlice = createSlice({
 
       state.nextOrderId += 1;
     },
-    updateOrderStatus: (state, action) => {},
+    updateOrderStatus: (state, action) => {
+      const { orderId, botId, orderStatus } = action.payload;
+      const order = state.orders.find((order) => order.id === orderId);
+      if (order) {
+        order.status = orderStatus;
+        order.botProcessing = botId;
+      }
+    },
   },
 });
 
