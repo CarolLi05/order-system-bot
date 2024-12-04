@@ -11,6 +11,7 @@ export default function OrderCard({ orderData }) {
           </span>
         )}
       </h2>
+      {orderData.botProcessing && <p>Bot #{orderData.botProcessing}</p>}
       <p>{orderData.createdAt}</p>
     </div>
   );

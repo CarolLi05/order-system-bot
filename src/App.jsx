@@ -2,8 +2,10 @@ import Control from "./components/Control";
 import BotStatus from "./components/BotStatus";
 import OrderArea from "./components/OrderArea";
 import { PENDING, PROCESSING, COMPLETED } from "./util/status";
+import { useOrderProcessing } from "./hook/useOrderProcessing";
 
 function App() {
+  useOrderProcessing();
   return (
     <div className="container mx-auto py-8 gap-3">
       <div className="grid grid-cols-3 gap-4">
