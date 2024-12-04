@@ -31,8 +31,17 @@ const botSlice = createSlice({
         bot.currentOrder = orderId;
       }
     },
+    cleanBotOrder: (state, action) => {
+      const { botId } = action.payload;
+      const bot = state.bots.find((bot) => bot.id === botId);
+      if (bot) {
+        bot.status = IDLE;
+        delete bot.currentOrder;
+      }
+    },
   },
 });
 
 export default botSlice.reducer;
-export const { addBot, removeBot, assignOrderToBot } = botSlice.actions;
+export const { addBot, removeBot, assignOrderToBot, cleanBotOrder } =
+  botSlice.actions;
