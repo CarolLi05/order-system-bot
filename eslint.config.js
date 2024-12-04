@@ -22,8 +22,6 @@ export default [
       react,
       "react-hooks": reactHooks,
       "react-refresh": reactRefresh,
-      prettier: "prettier",
-      tailwindcss: "tailwindcss",
     },
     rules: {
       ...js.configs.recommended.rules,
@@ -35,6 +33,9 @@ export default [
         "warn",
         { allowConstantExport: true },
       ],
+      "react-hooks/rules-of-hooks": "error",
+      "react-hooks/exhaustive-deps": "warn",
+      "react/prop-types": "off",
     },
   },
 ];
