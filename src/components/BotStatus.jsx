@@ -9,7 +9,7 @@ export default function BotStatus() {
       <p className="text-xl font-bold mb-2">Bot Status</p>
       <ul>
         {bots.length > 0 && bots.map((bot) => (
-          <Bot key={bot.id} id={bot.id} status={bot.status} />
+          <Bot key={bot.id} botData={bot} />
         ))}
       </ul>
     </div>
