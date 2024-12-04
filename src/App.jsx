@@ -1,6 +1,7 @@
 import Control from "./components/Control";
 import BotStatus from "./components/BotStatus";
 import OrderArea from "./components/OrderArea";
+import { PENDING, PROCESSING, COMPLETED } from "./util/status";
 
 function App() {
   return (
@@ -13,13 +14,13 @@ function App() {
           <BotStatus />
         </div>
         <div>
-          <OrderArea status="PENDING" />
+          <OrderArea status={PENDING} />
         </div>
         <div>
-          <OrderArea status="PROCESSING" />
+          <OrderArea status={PROCESSING} />
         </div>
         <div>
-          <OrderArea status="COMPLETED" />
+          <OrderArea status={COMPLETED} />
         </div>
       </div>
     </div>
