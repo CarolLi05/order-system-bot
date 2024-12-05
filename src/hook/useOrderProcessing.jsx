@@ -1,7 +1,8 @@
-import { useEffect, useCallback, useRef } from "react";
+import { useEffect, useCallback } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { updateOrderStatus } from "../store/orderSlice";
+import { updateOrderStatus, resetProcessingOrder } from "../store/orderSlice";
 import { assignOrderToBot, clearBotOrder } from "../store/botSlice";
+import { useOrderTimer } from "./useOrderTimer";
 import { PENDING, PROCESSING, COMPLETED, IDLE } from "../util/status";
 
 const PROCESSING_TIME = 10000; // 10 秒
@@ -10,24 +11,59 @@ export function useOrderProcessing() {
   const orders = useSelector((state) => state.order.orders);
   const bots = useSelector((state) => state.bot.bots);
   const dispatch = useDispatch();
-  const timersRef = useRef(new Map());
-  console.log("timersRef", timersRef.current);
-
-  const processingOrder = useCallback(
-    (orderId, botId) => {
-      dispatch(updateOrderStatus({ orderId, status: PROCESSING, botId }));
-      dispatch(assignOrderToBot({ botId, orderId }));
-    },
-    [dispatch],
-  );
+  const { setTimer, clearTimer } = useOrderTimer();
 
   const completeOrder = useCallback(
     (orderId, botId) => {
-      dispatch(updateOrderStatus({ orderId, status: COMPLETED, botId }));
+      dispatch(
+        updateOrderStatus({
+          orderId: orderId,
+          status: COMPLETED,
+          botId: null,
+        }),
+      );
       dispatch(clearBotOrder({ botId }));
+      clearTimer(orderId);
+    },
+    [dispatch, clearTimer],
+  );
+
+  const processingOrder = useCallback(
+    (orderId, botId) => {
+      dispatch(
+        updateOrderStatus({
+          orderId: orderId,
+          status: PROCESSING,
+          botId: botId,
+        }),
+      );
+      dispatch(assignOrderToBot({ botId: botId, orderId: orderId }));
+
+      setTimer(orderId, () => completeOrder(orderId, botId), PROCESSING_TIME);
+    },
+    [dispatch, setTimer, completeOrder],
+  );
+
+  const cancelOrder = useCallback(
+    (botId) => {
+      dispatch(resetProcessingOrder({ botId }));
     },
     [dispatch],
   );
+
+  // 機器人被刪除，重設訂單狀態
+  useEffect(() => {
+    const currentBotIds = new Set(bots.map((bot) => bot.id));
+
+    orders.forEach((order) => {
+      if (order.status === "PROCESSING") {
+        if (!currentBotIds.has(order.botProcessing)) {
+          clearTimer(order.id);
+          cancelOrder(order.id, order.botProcessing);
+        }
+      }
+    });
+  }, [bots, orders, cancelOrder, clearTimer]);
 
   // 處理訂單
   useEffect(() => {
@@ -41,24 +77,11 @@ export function useOrderProcessing() {
         const orderToProcess = pendingOrders.shift();
         if (!orderToProcess) return;
         processingOrder(orderToProcess.id, bot.id);
-        const timerId = setTimeout(() => {
-          // 如果機器人還存在
-          if (bot) {
-            completeOrder(orderToProcess.id, bot.id);
-          }
-          timersRef.current.delete(timerId);
-          clearTimeout(timerId);
-        }, PROCESSING_TIME);
-        timersRef.current.set(timerId, orderToProcess.id);
       });
     };
 
-    const interval = setInterval(startProcessing, 500);
+    const interval = setInterval(startProcessing, 0);
 
-    return () => {
-      clearInterval(interval);
-      timersRef.current.forEach((timer) => clearTimeout(timer));
-      timersRef.current.clear();
-    };
-  }, [orders, bots, dispatch, processingOrder, completeOrder]);
+    return () => clearInterval(interval);
+  }, [orders, bots, processingOrder]);
 }

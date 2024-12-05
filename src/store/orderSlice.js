@@ -40,8 +40,17 @@ const orderSlice = createSlice({
         order.completedAt = Date.now();
       }
     },
+    resetProcessingOrder: (state, action) => {
+      const { botId } = action.payload;
+      const order = state.orders.find((order) => order.botProcessing === botId);
+      if (order) {
+        order.status = PENDING;
+        delete order.botProcessing;
+      }
+    },
   },
 });
 
 export default orderSlice.reducer;
-export const { addOrder, updateOrderStatus } = orderSlice.actions;
+export const { addOrder, updateOrderStatus, resetProcessingOrder } =
+  orderSlice.actions;
