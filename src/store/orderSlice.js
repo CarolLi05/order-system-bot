@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { PENDING } from "../util/status";
+import { PENDING, COMPLETED } from "../util/status";
 
 const initialState = {
   orders: [],
@@ -30,11 +30,14 @@ const orderSlice = createSlice({
       state.nextOrderId += 1;
     },
     updateOrderStatus: (state, action) => {
-      const { orderId, botId, orderStatus } = action.payload;
+      const { orderId, botId, status } = action.payload;
       const order = state.orders.find((order) => order.id === orderId);
-      if (order) {
-        order.status = orderStatus;
-        order.botProcessing = botId;
+      if (!order) return;
+      order.status = status;
+      order.botProcessing = botId;
+
+      if (order.status === COMPLETED) {
+        order.completedAt = Date.now();
       }
     },
   },
