@@ -7,13 +7,15 @@ export default function OrderArea({ status }) {
   const filteredOrders = orders.filter((order) => order.status === status);
 
   return (
-    <div className="rounded-md border p-4">
+    <div className="rounded-md border p-4 bg-white">
       <p className="text-xl font-bold mb-4">
         {status}（{filteredOrders.length}）
       </p>
-      {filteredOrders.map((order) => (
-        <OrderCard key={order.id} orderData={order} />
-      ))}
+      <div className="space-y-3">
+        {filteredOrders.map((order) => (
+          <OrderCard key={order.id} orderData={order} />
+        ))}
+      </div>
     </div>
   );
 }

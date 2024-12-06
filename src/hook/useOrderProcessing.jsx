@@ -19,7 +19,7 @@ export function useOrderProcessing() {
         updateOrderStatus({
           orderId,
           status: COMPLETED,
-          botId: null,
+          botId: botId,
           completedAt: Date.now(),
         }),
       );

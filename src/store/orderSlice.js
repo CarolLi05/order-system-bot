@@ -48,7 +48,6 @@ const orderSlice = createSlice({
         }
 
         if (status === COMPLETED) {
-          order.processingBot = null;
           order.startedAt = null;
         }
       }
