@@ -27,5 +27,5 @@ export const useOrderTimer = () => {
     };
   }, []);
 
-  return { clearTimer, setTimer };
+  return { setTimer, clearTimer };
 };

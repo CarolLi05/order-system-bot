@@ -31,7 +31,7 @@ const botSlice = createSlice({
       bot.currentOrder = orderId;
     },
     clearBotOrder: (state, action) => {
-      const { botId } = action.payload;
+      const botId = action.payload;
       const bot = state.bots.find((bot) => bot.id === botId);
       if (!bot) return;
       bot.status = IDLE;

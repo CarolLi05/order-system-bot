@@ -11,7 +11,7 @@ export default function OrderCard({ orderData }) {
           </span>
         )}
       </h2>
-      {orderData.botProcessing && <p>Bot #{orderData.botProcessing}</p>}
+      {orderData.processingBot && <p>Bot #{orderData.processingBot}</p>}
       <p>created at：{orderData.createdAt}</p>
       {orderData.completedAt && <p>completed at：{orderData.completedAt}</p>}
     </div>

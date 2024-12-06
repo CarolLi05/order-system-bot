@@ -16,6 +16,9 @@ const orderSlice = createSlice({
         type: action.payload,
         status: PENDING,
         createdAt: Date.now(),
+        processingBot: null,
+        startedAt: null,
+        completedAt: null,
       };
 
       if (action.payload === "VIP") {
@@ -30,22 +33,35 @@ const orderSlice = createSlice({
       state.nextOrderId += 1;
     },
     updateOrderStatus: (state, action) => {
-      const { orderId, botId, status } = action.payload;
+      const { orderId, botId, status, startedAt, completedAt } = action.payload;
       const order = state.orders.find((order) => order.id === orderId);
-      if (!order) return;
-      order.status = status;
-      order.botProcessing = botId;
+      if (order) {
+        order.status = status;
+        order.processingBot = botId;
 
-      if (order.status === COMPLETED) {
-        order.completedAt = Date.now();
+        if (startedAt) {
+          order.startedAt = startedAt;
+        }
+
+        if (completedAt) {
+          order.completedAt = completedAt;
+        }
+
+        if (status === COMPLETED) {
+          order.processingBot = null;
+          order.startedAt = null;
+        }
       }
     },
     resetProcessingOrder: (state, action) => {
-      const { botId } = action.payload;
-      const order = state.orders.find((order) => order.botProcessing === botId);
+      const order = state.orders.find(
+        (o) => o.processingBot === action.payload,
+      );
       if (order) {
         order.status = PENDING;
-        delete order.botProcessing;
+        order.processingBot = null;
+        order.startedAt = null;
+        order.completedAt = null;
       }
     },
   },

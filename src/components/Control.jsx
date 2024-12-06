@@ -12,7 +12,7 @@ export default function Control() {
       <button
         type="button"
         className={`${defaultButtonClasses} text-white bg-blue-500 hover:bg-blue-400`}
-        onClick={() => dispatch(addOrder("Normal"))}
+        onClick={() => dispatch(addOrder("NORMAL"))}
       >
         + Normal Order
       </button>

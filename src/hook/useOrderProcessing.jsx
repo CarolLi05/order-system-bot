@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { updateOrderStatus, resetProcessingOrder } from "../store/orderSlice";
 import { assignOrderToBot, clearBotOrder } from "../store/botSlice";
 import { useOrderTimer } from "./useOrderTimer";
-import { PENDING, PROCESSING, COMPLETED, IDLE } from "../util/status";
+import { PENDING, PROCESSING, IDLE, COMPLETED } from "../util/status";
 
 const PROCESSING_TIME = 10000; // 10 秒
 
@@ -17,36 +17,42 @@ export function useOrderProcessing() {
     (orderId, botId) => {
       dispatch(
         updateOrderStatus({
-          orderId: orderId,
+          orderId,
           status: COMPLETED,
           botId: null,
+          completedAt: Date.now(),
         }),
       );
-      dispatch(clearBotOrder({ botId }));
+      dispatch(clearBotOrder(botId));
       clearTimer(orderId);
     },
     [dispatch, clearTimer],
   );
 
   const processingOrder = useCallback(
-    (orderId, botId) => {
+    (order, bot) => {
       dispatch(
         updateOrderStatus({
-          orderId: orderId,
+          orderId: order.id,
           status: PROCESSING,
-          botId: botId,
+          botId: bot.id,
+          startedAt: Date.now(),
         }),
       );
-      dispatch(assignOrderToBot({ botId: botId, orderId: orderId }));
+      dispatch(assignOrderToBot({ botId: bot.id, orderId: order.id }));
 
-      setTimer(orderId, () => completeOrder(orderId, botId), PROCESSING_TIME);
+      setTimer(
+        order.id,
+        () => completeOrder(order.id, bot.id),
+        PROCESSING_TIME,
+      );
     },
     [dispatch, setTimer, completeOrder],
   );
 
   const cancelOrder = useCallback(
     (botId) => {
-      dispatch(resetProcessingOrder({ botId }));
+      dispatch(resetProcessingOrder(botId));
     },
     [dispatch],
   );
@@ -56,10 +62,10 @@ export function useOrderProcessing() {
     const currentBotIds = new Set(bots.map((bot) => bot.id));
 
     orders.forEach((order) => {
-      if (order.status === "PROCESSING") {
-        if (!currentBotIds.has(order.botProcessing)) {
+      if (order.status === PROCESSING) {
+        if (!currentBotIds.has(order.processingBot)) {
           clearTimer(order.id);
-          cancelOrder(order.id, order.botProcessing);
+          cancelOrder(order.processingBot);
         }
       }
     });
@@ -71,17 +77,20 @@ export function useOrderProcessing() {
     const startProcessing = () => {
       const pendingOrders = orders.filter((order) => order.status === PENDING);
       const idleBots = bots.filter((bot) => bot.status === IDLE);
+
       if (pendingOrders.length === 0 || idleBots.length === 0) return;
 
       idleBots.forEach((bot) => {
         const orderToProcess = pendingOrders.shift();
         if (!orderToProcess) return;
-        processingOrder(orderToProcess.id, bot.id);
+        processingOrder(orderToProcess, bot);
       });
     };
 
-    const interval = setInterval(startProcessing, 0);
+    const interval = setInterval(startProcessing, 500);
 
     return () => clearInterval(interval);
   }, [orders, bots, processingOrder]);
 }
+
+export default useOrderProcessing;
