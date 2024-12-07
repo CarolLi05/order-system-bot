@@ -11,17 +11,18 @@ const orderSlice = createSlice({
   initialState,
   reducers: {
     addOrder: (state, action) => {
+      const { type, createdTime } = action.payload;
       const newOrder = {
         id: state.nextOrderId,
-        type: action.payload,
+        type: type,
         status: PENDING,
-        createdAt: Date.now(),
+        createdAt: createdTime,
         processingBot: null,
         startedAt: null,
         completedAt: null,
       };
 
-      if (action.payload === "VIP") {
+      if (type === "VIP") {
         const lastVipIndex = state.orders.findLastIndex(
           (order) => order.status === PENDING && order.type === "VIP",
         );
@@ -48,7 +49,7 @@ const orderSlice = createSlice({
         }
 
         if (status === COMPLETED) {
-          order.startedAt = null;
+          order.processingBot = null;
         }
       }
     },

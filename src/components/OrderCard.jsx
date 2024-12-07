@@ -1,4 +1,5 @@
 import { PROCESSING, COMPLETED } from "../util/status";
+import formatTime from "../util/formatTime";
 
 export default function OrderCard({ orderData }) {
   const changeStatusColor = (status) => {
@@ -42,8 +43,13 @@ export default function OrderCard({ orderData }) {
           </span>
         )}
       </div>
-      <p>created at：{orderData.createdAt}</p>
-      {orderData.completedAt && <p>completed at：{orderData.completedAt}</p>}
+      <p>建立時間：{formatTime(orderData.createdAt)}</p>
+      {(orderData.startedAt || orderData.completedAt) && (
+        <p>處理時間：{formatTime(orderData.startedAt)}</p>
+      )}
+      {orderData.completedAt && (
+        <p>完成時間：{formatTime(orderData.completedAt)}</p>
+      )}
     </div>
   );
 }

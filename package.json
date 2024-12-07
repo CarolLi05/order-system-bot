@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@reduxjs/toolkit": "^2.4.0",
+    "dayjs": "^1.11.13",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-redux": "^9.1.2"
@@ -44,20 +45,5 @@
     "tailwindcss": "^3.4.15",
     "vite": "^6.0.1",
     "vite-plugin-eslint": "^1.8.1"
-  },
-  "eslintConfig": {
-    "extends": "plugin:react-hooks/recommended"
-  },
-  "jest": {
-    "transform": {
-      "^.+\\.(js|jsx|ts|tsx)$": "babel-jest"
-    },
-    "moduleNameMapper": {
-      "\\.(svg)$": "jest-svg-transformer",
-      "\\.(css|less|scss|sass)$": "identity-obj-proxy"
-    },
-    "setupFilesAfterEnv": [
-      "<rootDir>/setupTests.js"
-    ]
   }
 }

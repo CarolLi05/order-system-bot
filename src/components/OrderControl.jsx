@@ -9,14 +9,18 @@ export default function Control() {
       <button
         type="button"
         className="inline-flex items-center px-3 py-2 rounded-lg text-white bg-blue-500 hover:bg-blue-400"
-        onClick={() => dispatch(addOrder("NORMAL"))}
+        onClick={() =>
+          dispatch(addOrder({ type: "NORMAL", createdTime: Date.now() }))
+        }
       >
         + Normal Order
       </button>
 
       <button
         className="inline-flex items-center px-3 py-2 rounded-lg text-white bg-amber-400 hover:bg-amber-300"
-        onClick={() => dispatch(addOrder("VIP"))}
+        onClick={() =>
+          dispatch(addOrder({ type: "VIP", createdTime: Date.now() }))
+        }
       >
         + 👑 VIP Order
       </button>
