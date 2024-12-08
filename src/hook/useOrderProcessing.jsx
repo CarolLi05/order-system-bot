@@ -80,10 +80,16 @@ export function useOrderProcessing() {
 
       if (pendingOrders.length === 0 || idleBots.length === 0) return;
 
+      // 優先處理 VIP 訂單
+      const vipOrders = pendingOrders.filter((order) => order.type === "VIP");
+      const normalOrders = pendingOrders.filter((order) => order.type === "NORMAL");
+      const ordersToProcess = [...vipOrders, ...normalOrders];
+
       idleBots.forEach((bot) => {
-        const orderToProcess = pendingOrders.shift();
-        if (!orderToProcess) return;
-        processingOrder(orderToProcess, bot);
+        const firstOrder = ordersToProcess.shift();
+        if (firstOrder) {
+          processingOrder(firstOrder, bot);
+        }
       });
     };
 
