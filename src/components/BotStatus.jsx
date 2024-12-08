@@ -7,7 +7,7 @@ export default function BotStatus() {
   return (
     <div className="rounded-lg border p-4 bg-white">
       <p className="text-xl font-bold mb-2">Bot Status</p>
-      <ul>
+      <ul className="flex flex-wrap algin-items-center gap-1">
         {bots.length > 0 &&
           bots.map((bot) => <Bot key={bot.id} botData={bot} />)}
       </ul>

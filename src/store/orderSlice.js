@@ -19,7 +19,6 @@ const orderSlice = createSlice({
         createdAt: createdTime,
         processingBot: null,
         startedAt: null,
-        completedAt: null,
       };
 
       if (type === "VIP") {
