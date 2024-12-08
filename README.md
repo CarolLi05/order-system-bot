@@ -1,13 +1,13 @@
 # Order System Bot
 
-Order System Bot 為 Hotcake Software Engineer 回家作業
-
-- 題目連結：[Hotcake Software Engineer Take Home Assignment](Hotcake-Software-Engineer-Take-Home-Assignment.d)
-- Demo 連結：[Order System Bot](https://order-system-bot.web.app/)
+Order System Bot 為 Hotcake Software Engineer 回家作業 (
+  [題目連結](Hotcake-Software-Engineer-Take-Home-Assignment.md) )
 
 這是一個麥當勞的訂餐管理系統，管理者可以新增及刪除機器人，來處理新增的訂單，並且訂單區分為一般訂單和 VIP 訂單，機器人會優先處理 VIP 訂單。
 
 在管理頁面中，顯示了目前可使用的機器人數量、有多少張待處理的訂單、以及每筆訂單的處理狀態（PENDING、PROCESSING、COMPLETED），並且每一筆訂單上都會顯示該筆訂單的建立時間、處理時間以及完成時間。
+
+- Demo 連結：https://order-system-bot.web.app/
 
 ## 安裝及執行專案
 
@@ -22,7 +22,7 @@ cd order-system-bot
 npm install
 
 # 執行專案
-npm run start
+npm run dev
 ```
 
 # 第三方 Library 及開發技術
