@@ -1,38 +1,45 @@
-## Hotcake Software Engineer Take Home Assignment
-Below is a take home assignment before the interview of the position. You are required to
-1. Understand the situation and use case. You may contact the interviewer for further clarification.
-2. Fork this repo and implement the requirement with your most familiar tools.
-3. Complete the requirement and perform your own testing.
-4. Provide documentation for the any part that you think is needed.
-5. Commit into your own github and share your repo with the interviewer.
-6. Bring the source code and functioning prototype to the interview session.
+# Order System Bot
 
-### Situation
-McDonald is transforming their business during COVID-19. They wish to build the automated cooking bots to reduce workforce and increase their efficiency. As one of the software engineer in the project. You task is to create an order controller which handle the order control flow. 
+Order System Bot 為 Hotcake Software Engineer 回家作業
 
-### User Story
-As below is part of the user story:
-1. As McDonald's normal customer, after I submitted my order, I wish to see my order flow into "PENDING" area. After the cooking bot process my order, I want to see it flow into to "COMPLETE" area.
-2. As McDonald's VIP member, after I submitted my order, I want my order being process first before all order by normal customer.  However if there's existing order from VIP member, my order should queue behind his/her order.
-3. As McDonald's manager, I want to increase or decrease number of cooking bot available in my restaurant. When I increase a bot, it should immediately process any pending order. When I decrease a bot, the processing order should remain un-process.
-4. As McDonald bot, it can only pickup and process 1 order at a time, each order required 10 seconds to complete process.
+- 題目連結：[Hotcake Software Engineer Take Home Assignment](Hotcake-Software-Engineer-Take-Home-Assignment.d)
+- Demo 連結：[Order System Bot](https://order-system-bot.web.app/)
 
-### Requirements
-1. When "New Normal Order" clicked, a new order should show up "PENDING" Area.
-2. When "New VIP Order" clicked, a new order should show up in "PENDING" Area. It should place in-front of all existing "Normal" order but behind of all existing "VIP" order.
-3. The order number should be unique and increasing.
-4. When "+ Bot" clicked, a bot should be created and start processing the order inside "PENDING" area. after 10 seconds picking up the order, the order should move to "COMPLETE" area. Then the bot should start processing another order if there is any left in "PENDING" area.
-5. If there is no more order in the "PENDING" area, the bot should become IDLE until a new order come in.
-6. When "- Bot" clicked, the newest bot should be destroyed. If the bot is processing an order, it should also stop the process. The order now back to "PENDING" and ready to process by other bot.
-7. No data persistance is needed for this prototype, you may perform all the process inside memory.
+這是一個麥當勞的訂餐管理系統，管理者可以新增及刪除機器人，來處理新增的訂單，並且訂單區分為一般訂單和 VIP 訂單，機器人會優先處理 VIP 訂單。
 
-### Functioning Prototype
-You may demostrate your final funtioning prototype with **one and only one** of the following method:
-- CLI application
-- UI application
-- E2E test case
+在管理頁面中，顯示了目前可使用的機器人數量、有多少張待處理的訂單、以及每筆訂單的處理狀態（PENDING、PROCESSING、COMPLETED），並且每一筆訂單上都會顯示該筆訂單的建立時間、處理時間以及完成時間。
 
-### Tips on completing this task
-- Testing, testing and testing. Make sure the prototype is functioning and meeting all the requirements.
-- Do not over engineering. Try to scope your working hour within 3 hours (1 hour per day). You may document all the optimization or technology concern that you think good to bring in the solution.
-- Complete the implementation as clean as possible, clean code is a strong plus point, do not bring in all the fancy tech stuff.
+## 安裝及執行專案
+
+```bash
+# 下載專案
+git clone https://github.com/CarolLi05/order-system-bot.git
+
+# 移動到專案資料夾
+cd order-system-bot
+
+# 安裝必要套件
+npm install
+
+# 執行專案
+npm run start
+```
+
+# 第三方 Library 及開發技術
+
+- 使用 React 18 + Vite 框架進行開發
+- 使用 `redux-toolkit` 作為狀態管理工具
+- 使用 Tailwind CSS 切版
+- 透過 `day.js` 處理時間格式
+- 使用 ESLint 進行語法檢查
+- 使用 Prettier 進行程式碼格式化
+- 使用 Firebase 進行部署
+
+
+# 專案成果
+
+1. 新增訂單及機器人，機器人優先處理 VIP 訂單。
+2. 10 秒過後機器人完成訂單，機器人接續處理 PENDING 狀態的訂單，如果沒有訂單，機器人則轉為空閒狀態。 
+3. 刪除機器人會從最新建立的機器人開始刪除，如果刪除正在處理訂單的機器人，訂單則會退回 PENDING 狀態。
+
+![order-system-bot](images/order-system-bot.gif)
