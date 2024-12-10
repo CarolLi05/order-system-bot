@@ -7,13 +7,17 @@ export default function OrderArea({ status }) {
   const filteredOrders = orders.filter((order) => order.status === status);
   // 找出 VIP 跟 NORMAL 訂單
   const vipOrders = filteredOrders.filter((order) => order.type === "VIP");
-  const normalOrders = filteredOrders.filter((order) => order.type === "NORMAL");
+  const normalOrders = filteredOrders.filter(
+    (order) => order.type === "NORMAL",
+  );
   // 排序 VIP 跟 NORMAL 訂單
   const sortedVipOrders = vipOrders.sort((a, b) => a.createdAt - b.createdAt);
-  const sortedNormalOrders = normalOrders.sort((a, b) => a.createdAt - b.createdAt);
+  const sortedNormalOrders = normalOrders.sort(
+    (a, b) => a.createdAt - b.createdAt,
+  );
   // 建立 pending 訂單
   const pendingOrders = [...sortedVipOrders, ...sortedNormalOrders];
-  
+
   const sortedProcessingOrders = filteredOrders.sort(
     (a, b) => a.startedAt - b.startedAt,
   );
@@ -23,10 +27,11 @@ export default function OrderArea({ status }) {
 
   return (
     <div className="rounded-md border p-4 bg-white">
-      <p className="text-xl font-bold mb-4">
-        {status}（{filteredOrders.length}）
-      </p>
-      <div className="space-y-3">
+      <h2 id={`${status}-heading`} className="text-xl font-bold mb-4">
+        {status}
+        <span>（{filteredOrders.length}）</span>
+      </h2>
+      <ul className="space-y-3" aria-labelledby={`${status}-heading`}>
         {status === PENDING &&
           pendingOrders.map((order) => (
             <OrderCard key={order.id} orderData={order} />
@@ -39,7 +44,7 @@ export default function OrderArea({ status }) {
           sortedCompletedOrders.map((order) => (
             <OrderCard key={order.id} orderData={order} />
           ))}
-      </div>
+      </ul>
     </div>
   );
 }

@@ -1,5 +1,5 @@
 {
-  "name": "vite-react-starter",
+  "name": "order-system-bot",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -8,7 +8,7 @@
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "test": "jest"
+    "test": "vitest"
   },
   "dependencies": {
     "@reduxjs/toolkit": "^2.4.0",
@@ -18,32 +18,30 @@
     "react-redux": "^9.1.2"
   },
   "devDependencies": {
-    "@babel/preset-env": "^7.26.0",
-    "@babel/preset-react": "^7.25.9",
     "@eslint/js": "^9.15.0",
-    "@testing-library/dom": "^10.4.0",
+    "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^16.0.1",
     "@testing-library/user-event": "^14.5.2",
     "@types/react": "^18.3.12",
     "@types/react-dom": "^18.3.1",
     "@vitejs/plugin-react": "^4.3.4",
     "autoprefixer": "^10.4.20",
-    "babel-jest": "^29.7.0",
     "eslint": "^9.16.0",
     "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-jest-dom": "^5.5.0",
     "eslint-plugin-prettier": "^5.2.1",
     "eslint-plugin-react": "^7.37.2",
     "eslint-plugin-react-hooks": "^5.0.0",
     "eslint-plugin-react-refresh": "^0.4.14",
+    "eslint-plugin-testing-library": "^7.1.1",
+    "eslint-plugin-vitest": "^0.5.4",
     "globals": "^15.12.0",
-    "identity-obj-proxy": "^3.0.0",
-    "jest": "^29.7.0",
-    "jest-environment-jsdom": "^29.7.0",
-    "jest-svg-transformer": "^1.0.0",
+    "jsdom": "^25.0.1",
     "postcss": "^8.4.49",
     "prettier": "^3.4.1",
     "tailwindcss": "^3.4.15",
     "vite": "^6.0.1",
-    "vite-plugin-eslint": "^1.8.1"
+    "vite-plugin-eslint": "^1.8.1",
+    "vitest": "^2.1.8"
   }
 }

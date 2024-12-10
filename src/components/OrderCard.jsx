@@ -27,22 +27,30 @@ export default function OrderCard({ orderData }) {
   };
 
   return (
-    <div
+    <li
       className={`rounded-md border p-4 ${changeStatusColor(orderData.status)} ${changeStatusBorderColor(orderData.status)}`}
+      data-testid="card"
     >
-      <div className="flex items-center gap-2 mb-2">
-        <span className="text-lg font-bold">Order #{orderData.id}</span>
-        {orderData.type === "VIP" && (
-          <span className="px-2 py-1 rounded-full text-sm font-bold text-white bg-amber-400">
-            VIP
-          </span>
-        )}
+      <h3
+        className="text-lg font-bold flex items-center gap-2 mb-2"
+        data-testid="cardTitle"
+      >
+        Order #{orderData.id}
+        <span
+          className={`px-2 py-1 rounded-full text-sm font-bold text-white ${orderData.type === "VIP" ? "bg-amber-400" : "bg-gray-300"}`}
+          data-testid="cardVip"
+        >
+          {orderData.type === "VIP" ? "VIP" : "NORMAL"}
+        </span>
         {orderData.processingBot && (
-          <span className="text-sm text-gray-600">
+          <span
+            className="text-sm font-normal text-gray-600"
+            data-testid="cardBot"
+          >
             Bot #{orderData.processingBot}
           </span>
         )}
-      </div>
+      </h3>
       <p>建立時間：{formatTime(orderData.createdAt)}</p>
       {(orderData.startedAt || orderData.completedAt) && (
         <p>處理時間：{formatTime(orderData.startedAt)}</p>
@@ -50,6 +58,6 @@ export default function OrderCard({ orderData }) {
       {orderData.completedAt && (
         <p>完成時間：{formatTime(orderData.completedAt)}</p>
       )}
-    </div>
+    </li>
   );
 }

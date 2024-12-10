@@ -12,9 +12,7 @@ export default function Control() {
         onClick={() =>
           dispatch(addOrder({ type: "NORMAL", createdTime: Date.now() }))
         }
-      >
-        + Normal Order
-      </button>
+      >+ Normal Order</button>
 
       <button
         className="inline-flex items-center px-3 py-2 rounded-lg text-gray-800 bg-amber-400 hover:bg-amber-300"
